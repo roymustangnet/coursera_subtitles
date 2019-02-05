@@ -1,0 +1,550 @@
+WEBVTT
+
+1
+00:00:01.770 --> 00:00:02.650
+Hi.
+In this module,
+
+2
+00:00:02.650 --> 00:00:06.330
+we're going to talk a little bit more
+about dynamic causal modeling, or DCM.
+
+3
+00:00:06.330 --> 00:00:10.650
+We'll try to understand a little bit
+more about the mathematics behind it.
+
+4
+00:00:10.650 --> 00:00:16.600
+So DCM attempts to model latent neuronal
+activation using hemodynamic time series.
+
+5
+00:00:16.600 --> 00:00:19.560
+This is based on a neuronal
+model of interacting regions,
+
+6
+00:00:19.560 --> 00:00:22.500
+supplemented with a forward
+model that tells how the neural
+
+7
+00:00:22.500 --> 00:00:26.170
+activity is transformed into
+the observed hemodynamic response.
+
+8
+00:00:27.320 --> 00:00:31.180
+So effective connectivity is parameterized
+in terms of the coupling among these
+
+9
+00:00:31.180 --> 00:00:34.660
+latent neuronal activity in different
+regions, and we can estimate these
+
+10
+00:00:34.660 --> 00:00:37.280
+parameters by perturbing the system and
+measuring the response.
+
+11
+00:00:38.840 --> 00:00:42.910
+So here's a little cartoon illustration,
+we have two regions here, one and two.
+
+12
+00:00:42.910 --> 00:00:47.460
+And there's a relationship between
+these two regions, so Z1 represents
+
+13
+00:00:47.460 --> 00:00:52.140
+the neuronal activation in region one, and
+Z2 the neuronal activation in region two.
+
+14
+00:00:52.140 --> 00:00:57.720
+And we see that activation in one gives
+rise to activation in two and vice versa.
+
+15
+00:00:57.720 --> 00:01:01.170
+So this is a very simple model of
+what's going on in these two different
+
+16
+00:01:01.170 --> 00:01:01.790
+brain regions.
+
+17
+00:01:02.960 --> 00:01:07.685
+Now, however, the problem with this
+is that we can't measure neuronal
+
+18
+00:01:07.685 --> 00:01:11.650
+activation using fMRIs, so
+we have to do something else.
+
+19
+00:01:11.650 --> 00:01:13.710
+So what we do is we
+perturb the system here.
+
+20
+00:01:13.710 --> 00:01:17.350
+So let's say that we have
+some sort of task and
+
+21
+00:01:17.350 --> 00:01:20.000
+this gives rise to
+the perturbation as follows.
+
+22
+00:01:20.000 --> 00:01:24.753
+So, u1 perturbs Z1, so
+it might increase the neuronal activation.
+
+23
+00:01:24.753 --> 00:01:29.360
+And u2 changes the relationship
+between regions one and two.
+
+24
+00:01:30.760 --> 00:01:33.410
+Now once we do that,
+this is going to give rise
+
+25
+00:01:33.410 --> 00:01:37.400
+to changes in the hemodynamic response,
+which we can measure.
+
+26
+00:01:37.400 --> 00:01:41.610
+And so the idea here is that changes in
+the neuronal activation gives rise to
+
+27
+00:01:41.610 --> 00:01:46.570
+the changes in the hemodynamic response,
+which we can measure using fMRI.
+
+28
+00:01:48.690 --> 00:01:52.810
+The goal here now is to take the values
+of Y1 and Y2, which we can measure,
+
+29
+00:01:52.810 --> 00:01:55.360
+and figure out what was going
+on on the neuronal level.
+
+30
+00:01:57.910 --> 00:02:00.330
+So in order to do this,
+we have to make some definitions.
+
+31
+00:02:00.330 --> 00:02:03.060
+So let's define the neuronal states as z.
+
+32
+00:02:03.060 --> 00:02:07.190
+So z is equal to z1, z2, up to zN,
+where we have N different regions.
+
+33
+00:02:07.190 --> 00:02:10.240
+In our little cartoon, we have two
+regions, so z would just be z1 and z2.
+
+34
+00:02:12.200 --> 00:02:16.660
+Here, the effective connectivity model
+is described by the following model.
+
+35
+00:02:16.660 --> 00:02:20.003
+This a bi-linear equation that tells us
+
+36
+00:02:20.003 --> 00:02:23.747
+how the neuronal activity
+at time t changes.
+
+37
+00:02:23.747 --> 00:02:28.368
+And here z of t is the neuronal
+activity at time t, which is latent.
+
+38
+00:02:28.368 --> 00:02:33.075
+And u t of y is the jth
+of J inputs at time t.
+
+39
+00:02:33.075 --> 00:02:36.975
+These are known to us,
+since we know what we do to the system.
+
+40
+00:02:36.975 --> 00:02:40.055
+The matrix A represents
+the first order connectivity
+
+41
+00:02:40.055 --> 00:02:41.925
+among regions in the absence of input.
+
+42
+00:02:41.925 --> 00:02:44.545
+And this specifies how
+regions are connected and
+
+43
+00:02:44.545 --> 00:02:46.439
+whether these connections are uni- or
+bidirectional.
+
+44
+00:02:48.040 --> 00:02:51.890
+The matrix C represents the intrinsic
+influence of inputs on the neuronal
+
+45
+00:02:51.890 --> 00:02:52.890
+activation.
+
+46
+00:02:52.890 --> 00:02:57.640
+This specifies how these inputs
+are connected to the different regions.
+
+47
+00:02:57.640 --> 00:03:00.110
+Finally the matrices B of j
+
+48
+00:03:00.110 --> 00:03:02.890
+represent the change in coupling
+induced by the jth input.
+
+49
+00:03:02.890 --> 00:03:06.659
+And this specifies how connections
+are changed by the inputs.
+
+50
+00:03:08.170 --> 00:03:12.130
+So we can see how these equations work
+by looking at our simple example again.
+
+51
+00:03:12.130 --> 00:03:13.690
+So if we do this,
+
+52
+00:03:13.690 --> 00:03:17.190
+we see that this bi-linear equation
+can written in the following form.
+
+53
+00:03:17.190 --> 00:03:20.630
+So here we see that changes in the
+neuronal activation in the two regions,
+
+54
+00:03:20.630 --> 00:03:25.630
+one and two, depend on the neuronal
+activations in the regions at
+
+55
+00:03:25.630 --> 00:03:30.580
+the current time point, Z1 and Z2,
+and also on the inputs u1 and u2.
+
+56
+00:03:34.210 --> 00:03:38.560
+Now, neuronal activation causes
+changes in the blood volume and
+
+57
+00:03:38.560 --> 00:03:43.240
+deoxyhemoglobin that cause changes
+in the observed BOLD response.
+
+58
+00:03:43.240 --> 00:03:46.990
+And so the hemodynamics in the DCM
+model is described using what's called
+
+59
+00:03:46.990 --> 00:03:51.880
+an extended Balloon model, which involves
+a set of hemodynamic state variables,
+
+60
+00:03:51.880 --> 00:03:55.155
+state equations and
+hemodynamic parameters, theta of h.
+
+61
+00:03:57.185 --> 00:04:00.535
+So, this is what the Extended Balloon
+Model looks like, and it's not for
+
+62
+00:04:00.535 --> 00:04:01.315
+the faint of heart.
+
+63
+00:04:01.315 --> 00:04:05.336
+So it's a series of differential
+equations showing how changes in
+
+64
+00:04:05.336 --> 00:04:10.147
+activity-dependent signal, flow induction,
+changes in blood volume, and
+
+65
+00:04:10.147 --> 00:04:14.890
+deoxyhemoglobin lead to the changes
+in the hemodynamic response.
+
+66
+00:04:14.890 --> 00:04:16.920
+So we're not going to go
+into this in detail, but
+
+67
+00:04:16.920 --> 00:04:20.720
+just kind of wanted to give you a flavor
+that equations like this exist.
+
+68
+00:04:22.280 --> 00:04:25.090
+Now, summarizing all of this information,
+
+69
+00:04:25.090 --> 00:04:28.100
+we have different state equations
+that we're going to be using in DCM.
+
+70
+00:04:29.160 --> 00:04:35.540
+So, we have the neuronal state, which is
+described by these neuronal activations,
+
+71
+00:04:35.540 --> 00:04:39.207
+Zt, and these have parameters,
+we're going to call them theta of C.
+
+72
+00:04:39.207 --> 00:04:44.260
+And then we have the hemodynamic states,
+which depends on s of t,
+
+73
+00:04:44.260 --> 00:04:45.820
+v of t and q of t.
+
+74
+00:04:47.330 --> 00:04:53.820
+And so the observed data is
+a function of q of t, of v of t.
+
+75
+00:04:53.820 --> 00:04:58.010
+And we won't talk about this so much in
+detail, but I just want you to know that
+
+76
+00:04:58.010 --> 00:05:01.180
+such a function exists, and
+this has parameters theta of h.
+
+77
+00:05:03.310 --> 00:05:04.990
+So we can combine the neuronal and
+
+78
+00:05:04.990 --> 00:05:09.500
+hemodynamic states, and
+get the following state-space model.
+
+79
+00:05:09.500 --> 00:05:13.290
+And this a sort of standard state space
+model that people know how to solve.
+
+80
+00:05:14.350 --> 00:05:19.600
+And basically in DCM analysis is
+performed using Bayesian methods.
+
+81
+00:05:19.600 --> 00:05:23.610
+So normal priors are placed on
+the unknown thetas here and
+
+82
+00:05:23.610 --> 00:05:28.560
+the posterior density is used to make
+inferences about the connections.
+
+83
+00:05:28.560 --> 00:05:33.170
+Finally, model comparisons, the comparison
+between different suggested models, can
+
+84
+00:05:33.170 --> 00:05:36.620
+be performed to determine whether the data
+favors one of the models over another.
+
+85
+00:05:36.620 --> 00:05:41.530
+And so this is done,
+using Bayesian model comparisons.
+
+86
+00:05:41.530 --> 00:05:45.380
+So, there's something called the model
+evidence, which is the probability of
+
+87
+00:05:45.380 --> 00:05:49.170
+the data, given a specific model, and
+it can be computed in the following way.
+
+88
+00:05:50.620 --> 00:05:53.210
+Now, in order to compare models
+one computes something called
+
+89
+00:05:53.210 --> 00:05:54.500
+the Bayes factor.
+
+90
+00:05:54.500 --> 00:05:58.598
+So the Bayes factor,
+we'll call this B i of j,
+
+91
+00:05:58.598 --> 00:06:02.488
+is basically the ratio
+of the model evidence
+
+92
+00:06:02.488 --> 00:06:08.010
+from model i divided by
+the model evidence for model j.
+
+93
+00:06:08.010 --> 00:06:13.211
+So if Bij is large, and
+by large I mean bigger than one,
+
+94
+00:06:13.211 --> 00:06:15.936
+than i is more likely than j.
+
+95
+00:06:15.936 --> 00:06:21.414
+And if Bij is less than one,
+then j is more likely than i.
+
+96
+00:06:21.414 --> 00:06:25.248
+Now, in order to compute this,
+various approximations exist,
+
+97
+00:06:25.248 --> 00:06:28.160
+including negative free energy,
+AIC, or BIC.
+
+98
+00:06:28.160 --> 00:06:32.580
+And this is all implemented in the SBM
+software that's very popular in
+
+99
+00:06:32.580 --> 00:06:33.320
+the neuro-imaging community.
+
+100
+00:06:35.470 --> 00:06:40.060
+Here's an example from the UCL
+group who's behind SBM,
+
+101
+00:06:40.060 --> 00:06:44.240
+and here they're showing three different
+models here that they want to compare, and
+
+102
+00:06:44.240 --> 00:06:48.148
+they use Bayes factors to compare
+the three different candidate DCMs and
+
+103
+00:06:48.148 --> 00:06:50.860
+find the one that is the mostly likely.
+
+104
+00:06:50.860 --> 00:06:55.330
+So, that's the end of this module.
+
+105
+00:06:55.330 --> 00:06:59.880
+Here, I've just tried to give you a brief
+feel for what dynamic causal modeling is.
+
+106
+00:06:59.880 --> 00:07:02.680
+Again, this is implemented
+in the SBN software.
+
+107
+00:07:02.680 --> 00:07:06.660
+And it tends to be quite mathematical, but
+
+108
+00:07:06.660 --> 00:07:10.290
+I just wanted to give you a basic feel for
+what's going on there so
+
+109
+00:07:10.290 --> 00:07:13.510
+you could read papers about it and
+have a general idea understanding.
+
+110
+00:07:13.510 --> 00:07:15.680
+Okay.
+In the next module we'll talk about
+
+111
+00:07:15.680 --> 00:07:16.410
+Granger causality.
+
+112
+00:07:16.410 --> 00:07:17.328
+I'll see you then.
+
+113
+00:07:17.328 --> 00:07:18.626
+Bye.
+
+114
+00:07:18.626 --> 00:07:21.083
+[SOUND]
